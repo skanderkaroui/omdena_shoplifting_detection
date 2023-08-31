@@ -16,8 +16,9 @@ def _display_detected_frames(conf, model, st_frame, image):
     # Predict the objects in the image using the YOLOv8 model
     res = model.predict(image, conf=conf)
 
+    human_res = [obj for obj in res[0].pred if obj['class'] == 0]
     # Plot the detected objects on the video frame
-    res_plotted = res[0].plot()
+    res_plotted = res[0].plot(predictions=human_res)
     st_frame.image(res_plotted,
                    caption='Detected Video',
                    channels="BGR",
