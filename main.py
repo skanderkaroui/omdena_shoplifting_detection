@@ -3,10 +3,11 @@ from pathlib import Path
 
 # External packages
 import streamlit as st
+from ultralytics import YOLO
 
-import helper
 # Local Modules
 import settings
+import helper
 
 # Setting page layout
 st.set_page_config(
@@ -36,18 +37,16 @@ elif model_type == 'Segmentation':
 
 # Load Pre-trained ML Model
 try:
-    model = helper.load_model(model_path)
+    model = YOLO(model_path)
 except Exception as ex:
     st.error(f"Unable to load model. Check the specified path: {model_path}")
     st.error(ex)
+
 st.sidebar.header("Image/Video Config")
 source_radio = st.sidebar.radio(
     "Select Source", settings.SOURCES_LIST)
-source_img = None
 
-# If image is selected
 if source_radio == settings.VIDEO:
     helper.play_stored_video(confidence, model)
-
 else:
     st.error("Please select a valid source type!")

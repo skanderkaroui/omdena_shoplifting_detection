@@ -15,4 +15,3 @@ results = model.track(vid_path,
                       persist=True,
                       show=True
                       )
-
